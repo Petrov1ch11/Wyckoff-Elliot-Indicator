@@ -1,0 +1,41 @@
+//@version=5
+//  _____ _____ _   _ _____ _   __
+// |_   _|  ___| \ | |_   _| | / /
+//   | | | |__ |  \| | | | | |/ / 
+//   | | |  __|| . ` | | | |    \ 
+//   | | | |___| |\  |_| |_| |\  \
+//   \_/ \____/\_| \_/\___/\_| \_/
+// version v2.3                          
+
+indicator("TNK-WE", overlay=true)
+
+elliotWaves(high, low) =>
+    waveHigh = high[5] < high[0]
+    waveLow = low[5] > low[0]
+    waveHigh ? 1 : waveLow ? -1 : 0
+
+wyckoffTheory(close, volume) =>
+    bullishSignal = close[1] > close[2] and close[2] > close[3] and volume[1] > volume[2]
+    bearishSignal = close[1] < close[2] and close[2] < close[3] and volume[1] > volume[2]
+    bullishSignal ? 1 : bearishSignal ? -1 : 0
+
+elliotResult = elliotWaves(high, low)
+wyckoffResult = wyckoffTheory(close, volume)
+
+plotshape(elliotResult == 1, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="Elliott Up", textcolor=color.green)
+plotshape(elliotResult == -1, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="Elliott Down", textcolor=color.red)
+
+plotshape(wyckoffResult == 1, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="Wyckoff Bullish", textcolor=color.green)
+plotshape(wyckoffResult == -1, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="Wyckoff Bearish", textcolor=color.red)
+
+fastMA = ta.sma(close, 10)
+slowMA = ta.sma(close, 50)
+
+plot(fastMA, color=color.blue)
+plot(slowMA, color=color.orange)
+
+buySignal = ta.crossover(fastMA, slowMA)
+sellSignal = ta.crossunder(fastMA, slowMA)
+
+plotshape(buySignal, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="B", textcolor=color.white)
+plotshape(sellSignal, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="S", textcolor=color.white)
