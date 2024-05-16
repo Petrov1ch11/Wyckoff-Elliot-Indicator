@@ -37,5 +37,5 @@ plot(slowMA, color=color.orange)
 buySignal = ta.crossover(fastMA, slowMA)
 sellSignal = ta.crossunder(fastMA, slowMA)
 
-plotshape(buySignal, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="B", textcolor=color.white)
-plotshape(sellSignal, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="S", textcolor=color.white)
+plotshape(buySignal, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="Buy/Long", textcolor=color.white)
+plotshape(sellSignal, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="Sell/Short", textcolor=color.white)
